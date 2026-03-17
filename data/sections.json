@@ -1,0 +1,310 @@
+{
+  "sections": [
+    {
+      "id": "memo-objects",
+      "title": "React.memo and Object Props",
+      "description": "React.memo does a shallow comparison of props to decide whether to re-render a component. This works fine for primitive values — strings, numbers, booleans. But it breaks down silently when you pass an object or a function as a prop.",
+      "paragraphs": [
+        "Every time a component renders, any object literal written inline is a new reference in memory. Shallow comparison checks references, not deep equality — so React.memo sees a \"changed\" prop and re-renders anyway, defeating its purpose entirely."
+      ],
+      "subsections": [
+        {
+          "heading": "The problem",
+          "content": "",
+          "code": "const Child = React.memo(({ config }) => {\n  return <div>{config.title}</div>;\n});\n\nfunction Parent() {\n  // This object is recreated on every render.\n  // React.memo does a shallow comparison and sees\n  // a new reference each time — so it re-renders anyway.\n  return <Child config={{ title: 'Hello' }} />;\n}",
+          "language": "javascript"
+        },
+        {
+          "heading": "Fix 1 — stabilize with useMemo",
+          "content": "Wrap the object in useMemo so its reference only changes when its dependencies change.",
+          "code": "import { useMemo } from 'react';\n\nfunction Parent() {\n  const config = useMemo(() => ({ title: 'Hello' }), []);\n  // Now the reference is stable — React.memo works as expected.\n  return <Child config={config} />;\n}",
+          "language": "javascript"
+        },
+        {
+          "heading": "Fix 2 — define the value outside the component",
+          "content": "If the value is static and never changes, move it outside the component entirely. No hook needed.",
+          "code": "// If the value never changes, define it outside the component\n// so it's never recreated.\nconst config = { title: 'Hello' };\n\nfunction Parent() {\n  return <Child config={config} />;\n}",
+          "language": "javascript"
+        }
+      ]
+    },
+    {
+      "id": "memo-functions",
+      "title": "React.memo and Function Props",
+      "description": "The same issue applies to functions. An arrow function written inline creates a new reference on every render. Passing it as a prop to a memoized child means that child will always re-render.",
+      "paragraphs": [],
+      "subsections": [
+        {
+          "heading": "The problem",
+          "content": "",
+          "code": "const Child = React.memo(({ onClick }) => {\n  return <button onClick={onClick}>Click me</button>;\n});\n\nfunction Parent() {\n  // A new function reference is created on every render.\n  // React.memo can't help here.\n  return <Child onClick={() => console.log('clicked')} />;\n}",
+          "language": "javascript"
+        },
+        {
+          "heading": "Fix — stabilize with useCallback",
+          "content": "useCallback memoizes the function itself, returning the same reference between renders as long as its dependencies haven't changed.",
+          "code": "import { useCallback } from 'react';\n\nfunction Parent() {\n  const handleClick = useCallback(() => {\n    console.log('clicked');\n  }, []);\n  // Stable reference — React.memo prevents unnecessary re-renders.\n  return <Child onClick={handleClick} />;\n}",
+          "language": "javascript"
+        }
+      ]
+    },
+    {
+      "id": "memo-comparators",
+      "title": "Custom Comparators in React.memo",
+      "description": "React.memo accepts a second argument: a comparison function. It receives the previous and next props, and lets you decide whether the component should re-render. Return true to skip re-render (props are equal), false to allow it.",
+      "paragraphs": [
+        "This is useful when you want to do a partial or semantic comparison — for example, comparing only the id of a user object rather than the whole object."
+      ],
+      "subsections": [
+        {
+          "heading": "",
+          "content": "",
+          "code": "const Child = React.memo(\n  ({ user }) => {\n    return <div>{user.name}</div>;\n  },\n  (prevProps, nextProps) => {\n    // Return true if props are equal (skip re-render).\n    // Return false if props changed (allow re-render).\n    return prevProps.user.id === nextProps.user.id;\n  }\n);",
+          "language": "javascript"
+        }
+      ]
+    },
+    {
+      "id": "mental-model",
+      "title": "The mental model",
+      "description": "React.memo is only as good as the stability of the props you pass. Before reaching for memoization, ask: are my props stable references?",
+      "paragraphs": [
+        "Primitive values (string, number, boolean) — stable by value. React.memo works as expected.",
+        "Objects passed inline — new reference every render. Use useMemo or lift them outside.",
+        "Functions passed inline — new reference every render. Use useCallback."
+      ],
+      "subsections": []
+    },
+    {
+      "id": "strict-mode",
+      "title": "React Strict Mode",
+      "description": "React.StrictMode is a development-only tool. It doesn't render any visible UI, but it activates extra checks and warnings for its descendants.",
+      "paragraphs": [
+        "One behavior that catches people off guard: in Strict Mode, React intentionally mounts components twice in development. This means your useEffect will run, its cleanup will run, then it will run again — all on the initial mount.",
+        "This is intentional. React is verifying that your effects are resilient and that your cleanup logic correctly undoes what the effect sets up. If your app breaks with Strict Mode's double-invocation, it means your cleanup is incomplete — not that Strict Mode is wrong."
+      ],
+      "subsections": [
+        {
+          "heading": "",
+          "content": "",
+          "code": "import { StrictMode } from 'react';\n\n<StrictMode>\n  <App />\n</StrictMode>",
+          "language": "javascript"
+        },
+        {
+          "heading": "",
+          "content": "",
+          "code": "useEffect(() => {\n  // In Strict Mode (dev only), this runs twice:\n  // mount → unmount → mount\n  // This is intentional — React is checking your cleanup is correct.\n  const sub = subscribe();\n  return () => sub.unsubscribe();\n}, []);",
+          "language": "javascript"
+        }
+      ]
+    },
+    {
+      "id": "effect-vs-layout",
+      "title": "useEffect vs useLayoutEffect",
+      "description": "Both hooks run after render, but at different times. The difference is subtle but matters for visual consistency.",
+      "paragraphs": [],
+      "subsections": [
+        {
+          "heading": "useEffect — after paint",
+          "content": "Runs asynchronously after the browser has painted the screen. The user sees the updated UI before the effect fires. Ideal for data fetching, subscriptions, logging — anything that doesn't need to block painting.",
+          "code": "useEffect(() => {\n  // Runs after paint — the browser has already updated the screen.\n  // Good for: data fetching, subscriptions, logging.\n  document.title = 'Hello';\n}, []);",
+          "language": "javascript"
+        },
+        {
+          "heading": "useLayoutEffect — before paint",
+          "content": "Runs synchronously after React has updated the DOM, but before the browser paints. Useful when you need to measure the DOM or make adjustments that would cause a visible flicker if done after paint. Prefer useEffect by default. Reach for useLayoutEffect only when you observe a flash or need DOM measurements before the paint.",
+          "code": "useLayoutEffect(() => {\n  // Runs synchronously after DOM mutations, before paint.\n  // Good for: reading layout, measuring DOM nodes, avoiding flicker.\n  const rect = ref.current.getBoundingClientRect();\n  setHeight(rect.height);\n}, []);",
+          "language": "javascript"
+        }
+      ]
+    },
+    {
+      "id": "batching",
+      "title": "await and State Update Batching",
+      "description": "React batches multiple state updates into a single re-render when they happen in the same synchronous event handler. React 18 extended this to async contexts too — but there's a catch: await can break batching.",
+      "paragraphs": [
+        "Any state updates that occur after an await expression are no longer in the same microtask and may not be batched together, causing separate re-renders."
+      ],
+      "subsections": [
+        {
+          "heading": "The problem",
+          "content": "",
+          "code": "// Before React 18 — and still a pitfall with async/await:\nasync function handleClick() {\n  setCount(c => c + 1);\n  await fetch('/api/data'); // <-- await breaks batching here\n  setData(result);          // This triggers a separate render\n}",
+          "language": "javascript"
+        },
+        {
+          "heading": "Fix — restructure or use flushSync",
+          "content": "",
+          "code": "import { flushSync } from 'react-dom';\n\n// Option 1: restructure to avoid the await between state updates.\n// Option 2: use flushSync if you need synchronous flushing explicitly.\nflushSync(() => {\n  setCount(c => c + 1);\n});\n// Or restructure so related state updates happen in the same tick.",
+          "language": "javascript"
+        }
+      ]
+    },
+    {
+      "id": "derived-state",
+      "title": "Derived State from Props",
+      "description": "A common anti-pattern is copying a prop into state and then syncing it with a useEffect. This creates an unnecessary extra render cycle and can lead to subtle bugs where state lags behind the prop.",
+      "paragraphs": [],
+      "subsections": [
+        {
+          "heading": "The anti-pattern",
+          "content": "",
+          "code": "function UserCard({ userId }) {\n  const [id, setId] = useState(userId);\n\n  useEffect(() => {\n    setId(userId); // Redundant — causes an extra render cycle.\n  }, [userId]);\n\n  return <div>{id}</div>;\n}",
+          "language": "javascript"
+        },
+        {
+          "heading": "The best solution",
+          "content": "If the value is derived purely from props, compute it during render. Only reach for state if the value genuinely diverges from the prop over time due to user interaction.",
+          "code": "// Just use the prop directly — no state needed.\nfunction UserCard({ userId }) {\n  return <div>{userId}</div>;\n}\n\n// If you need to transform it, derive during render:\nfunction UserCard({ userId }) {\n  const displayId = userId.toUpperCase();\n  return <div>{displayId}</div>;\n}\n\n// Only lift to state if the value truly diverges from the prop over time.",
+          "language": "javascript"
+        }
+      ]
+    },
+    {
+      "id": "abort-controllers",
+      "title": "Abort Controllers and Race Conditions",
+      "description": "When you fetch data inside a useEffect, the fetch continues even if the component unmounts before it completes. Calling setState on an unmounted component produces a warning: \"Can't perform a React state update on an unmounted component.\"",
+      "paragraphs": [
+        "There's also a race condition: if the effect re-runs (e.g. when id changes), a slow earlier fetch could resolve after a faster later one, overwriting your state with stale data."
+      ],
+      "subsections": [
+        {
+          "heading": "The problem",
+          "content": "",
+          "code": "useEffect(() => {\n  fetch('/api/data')\n    .then(res => res.json())\n    .then(data => setData(data)); // Component may have unmounted!\n}, [id]);",
+          "language": "javascript"
+        },
+        {
+          "heading": "Fix — use an AbortController",
+          "content": "Pass the controller's signal to fetch and abort it in the cleanup function. This cancels the in-flight request and prevents stale state updates.",
+          "code": "useEffect(() => {\n  const controller = new AbortController();\n\n  fetch('/api/data', { signal: controller.signal })\n    .then(res => res.json())\n    .then(data => setData(data))\n    .catch(err => {\n      if (err.name === 'AbortError') return; // Ignore — intentional cancel\n      throw err;\n    });\n\n  return () => controller.abort(); // Cleanup on unmount or re-run\n}, [id]);",
+          "language": "javascript"
+        }
+      ]
+    },
+    {
+      "id": "controlled-components",
+      "title": "Controlled Components",
+      "description": "A controlled component is one where React owns the form element's value. The input's value is driven by state, and every keystroke updates that state via an onChange handler. This gives you a single source of truth.",
+      "paragraphs": [],
+      "subsections": [
+        {
+          "heading": "Uncontrolled vs controlled",
+          "content": "",
+          "code": "// Uncontrolled — React doesn't own the value.\n<input defaultValue={name} />\n\n// Controlled — React owns the value.\nconst [name, setName] = useState('');\n\n<input\n  value={name}\n  onChange={e => setName(e.target.value)}\n/>",
+          "language": "javascript"
+        },
+        {
+          "heading": "Common pitfall",
+          "content": "Initializing state with undefined makes the input uncontrolled. When state later becomes a string, React warns about switching from uncontrolled to controlled. Always initialize with an empty string.",
+          "code": "// Pitfall: switching between controlled and uncontrolled.\n// If value is undefined, the input is uncontrolled.\n// If value becomes a string, React warns about the switch.\nconst [name, setName] = useState(undefined); // BAD\nconst [name, setName] = useState('');         // GOOD — always a string",
+          "language": "javascript"
+        }
+      ]
+    },
+    {
+      "id": "use-reducer",
+      "title": "Lesser-known facts about useReducer",
+      "description": "Most people know useReducer as a more structured alternative to useState for complex state. A few less obvious behaviors:",
+      "paragraphs": [],
+      "subsections": [
+        {
+          "heading": "Basic pattern",
+          "content": "",
+          "code": "const [state, dispatch] = useReducer(reducer, initialState);\n\n// The reducer receives the current state and an action.\nfunction reducer(state, action) {\n  switch (action.type) {\n    case 'increment':\n      return { count: state.count + 1 };\n    default:\n      return state;\n  }\n}",
+          "language": "javascript"
+        },
+        {
+          "heading": "Lazy initialization",
+          "content": "The third argument to useReducer is an initializer function. It receives the second argument as input and is called once — useful for expensive initial computations or deriving initial state from props without running that logic on every render.",
+          "code": "// Lazy initialization — the third argument is an init function.\n// Useful when computing initial state is expensive.\nconst [state, dispatch] = useReducer(reducer, props.id, fetchInitialData);\n// fetchInitialData(props.id) is called once on mount.",
+          "language": "javascript"
+        },
+        {
+          "heading": "dispatch is stable",
+          "content": "Unlike state values, dispatch has a stable identity across renders. You don't need to include it in dependency arrays.",
+          "code": "// dispatch is stable — it never changes between renders.\n// You can safely omit it from useEffect/useCallback dependency arrays.\nuseEffect(() => {\n  dispatch({ type: 'reset' });\n}, []); // No need to include dispatch",
+          "language": "javascript"
+        }
+      ]
+    },
+    {
+      "id": "memo-callback-facts",
+      "title": "Lesser-known facts about useMemo and useCallback",
+      "description": "These two hooks are often misunderstood or overused. Some things worth knowing:",
+      "paragraphs": [],
+      "subsections": [
+        {
+          "heading": "useMemo runs during render",
+          "content": "Unlike useEffect, useMemo runs synchronously during rendering. Do not use it for side effects — use it only for pure computations.",
+          "code": "// useMemo runs during render — not after.\n// Do NOT use it for side effects.\nconst value = useMemo(() => expensiveComputation(a, b), [a, b]);\n\n// useMemo with no deps runs once — same as defining outside the component,\n// but useful when the value depends on props/context.\nconst schema = useMemo(() => buildSchema(), []);",
+          "language": "javascript"
+        },
+        {
+          "heading": "useCallback is syntactic sugar",
+          "content": "useCallback(fn, deps) is equivalent to useMemo(() => fn, deps). It's just syntactic sugar for memoizing functions. Memoization has a cost. Don't add it everywhere — only when you have a measurable performance problem.",
+          "code": "// useCallback(fn, deps) is equivalent to useMemo(() => fn, deps).\n// It's just syntactic sugar for memoizing functions.\n\n// Both of these are identical:\nconst fn1 = useCallback(() => doThing(a), [a]);\nconst fn2 = useMemo(() => () => doThing(a), [a]);\n\n// Reminder: memoization has a cost. Don't add it everywhere —\n// only when you have a measurable performance problem.",
+          "language": "javascript"
+        }
+      ]
+    },
+    {
+      "id": "use-transition",
+      "title": "useTransition",
+      "description": "Introduced in React 18, useTransition lets you mark certain state updates as non-urgent. React will prioritize urgent updates (like typing in an input) and defer the non-urgent ones (like filtering a large list), keeping the UI responsive.",
+      "paragraphs": [
+        "The hook returns isPending — a boolean you can use to show a loading state while the transition is in progress — and startTransition, a function that wraps your non-urgent state update."
+      ],
+      "subsections": [
+        {
+          "heading": "",
+          "content": "",
+          "code": "import { useTransition, useState } from 'react';\n\nfunction SearchPage() {\n  const [query, setQuery] = useState('');\n  const [results, setResults] = useState([]);\n  const [isPending, startTransition] = useTransition();\n\n  function handleChange(e) {\n    setQuery(e.target.value); // Urgent — update input immediately\n    startTransition(() => {\n      setResults(search(e.target.value)); // Non-urgent — can be interrupted\n    });\n  }\n\n  return (\n    <>\n      <input value={query} onChange={handleChange} />\n      {isPending ? <p>Loading...</p> : <Results data={results} />}\n    </>\n  );\n}",
+          "language": "javascript"
+        }
+      ]
+    },
+    {
+      "id": "suspense-lazy",
+      "title": "Suspense and lazy",
+      "description": "Code splitting lets you split your bundle and load components on-demand. Use React.lazy for dynamic imports and Suspense to show a fallback while the component loads.",
+      "paragraphs": [
+        "Suspense also works with data fetching in React 18+, when used with a Suspense-compatible data source (e.g. use(), SWR, React Query)."
+      ],
+      "subsections": [
+        {
+          "heading": "Code splitting with lazy",
+          "content": "The component is loaded only when it's first rendered.",
+          "code": "import { Suspense, lazy } from 'react';\n\n// The component is loaded only when it's first rendered.\nconst HeavyChart = lazy(() => import('./HeavyChart'));\n\nfunction Dashboard() {\n  return (\n    <Suspense fallback={<p>Loading chart...</p>}>\n      <HeavyChart />\n    </Suspense>\n  );\n}",
+          "language": "javascript"
+        },
+        {
+          "heading": "Suspense with data fetching",
+          "content": "",
+          "code": "// Suspense also works with data fetching in React 18+,\n// when used with a Suspense-compatible data source (e.g. use(), SWR, React Query).\nimport { use } from 'react';\n\nfunction UserProfile({ userPromise }) {\n  const user = use(userPromise); // Suspends until the promise resolves\n  return <p>{user.name}</p>;\n}",
+          "language": "javascript"
+        }
+      ]
+    },
+    {
+      "id": "form-state-optimistic",
+      "title": "useFormState and useOptimistic",
+      "description": "Server Actions in Next.js bring new possibilities for form handling. Two hooks make this ergonomic: useFormState for managing action state, and useOptimistic for instant UI feedback.",
+      "paragraphs": [],
+      "subsections": [
+        {
+          "heading": "useFormState for server actions",
+          "content": "Lets you wire a form's action attribute directly to an async server function and capture its return value.",
+          "code": "'use client';\nimport { useFormState } from 'react-dom';\n\nasync function submitAction(prevState, formData) {\n  const name = formData.get('name');\n  if (!name) return { error: 'Name is required' };\n  await saveToDb(name);\n  return { success: true };\n}\n\nfunction MyForm() {\n  const [state, formAction] = useFormState(submitAction, {});\n\n  return (\n    <form action={formAction}>\n      <input name='name' />\n      {state.error && <p>{state.error}</p>}\n      <button type='submit'>Save</button>\n    </form>\n  );\n}",
+          "language": "javascript"
+        },
+        {
+          "heading": "useOptimistic for instant feedback",
+          "content": "Show a pending version of your data immediately while the server request is in flight.",
+          "code": "'use client';\nimport { useOptimistic } from 'react';\n\nfunction MessageList({ messages, sendMessage }) {\n  const [optimisticMessages, addOptimistic] = useOptimistic(\n    messages,\n    (state, newMessage) => [...state, { text: newMessage, pending: true }]\n  );\n\n  async function handleSubmit(text) {\n    addOptimistic(text);  // Immediately show the message\n    await sendMessage(text); // Actual server call\n  }\n\n  return (\n    <ul>\n      {optimisticMessages.map((m, i) => (\n        <li key={i} style={{ opacity: m.pending ? 0.5 : 1 }}>{m.text}</li>\n      ))}\n    </ul>\n  );\n}",
+          "language": "javascript"
+        }
+      ]
+    }
+  ]
+}

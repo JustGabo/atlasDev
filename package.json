@@ -9,9 +9,16 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
+    "@types/react-syntax-highlighter": "^15.5.13",
+    "framer-motion": "^12.35.1",
+    "gsap": "^3.14.2",
+    "lucide-react": "^0.577.0",
     "next": "16.1.6",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "react-syntax-highlighter": "^16.1.1",
+    "sugar-high": "^0.9.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

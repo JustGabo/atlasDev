@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+}
+
+::selection{
+  background-color: rgb(209, 209, 209); /* Sets the highlight color */
+  color: rgb(41, 41, 41);  
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
