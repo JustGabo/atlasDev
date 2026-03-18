@@ -4,16 +4,16 @@ import { useState } from "react";
 export default function TransformDemo() {
     const [useTransform, setUseTransform] = useState(true);
     return (
-        <div className="flex flex-col justify-center w-full items-center gap-5">
+        <div className="flex flex-col justify-center w-full items-center gap-10">
             <motion.div
                 animate={
                     useTransform
                         ? { x: -100, scale: 1.2 } // transform (GPU friendly)
-                        : { left: 100, width: 200 } // layout (reflow)
+                        : { left: 100, width: 175 } // layout (reflow)
                 }
                 transition={{ duration: 0.5 }}
                 style={{backgroundColor: "#fff68d"}}
-                className="w-24 h-24  relative bg-[#fff68d]"
+                className="w-14 h-16  relative bg-[#fff68d] rounded-sm"
             />
 
             <button onClick={() => setUseTransform(!useTransform)}>

@@ -18,5 +18,5 @@ export default function LazyRenderingDemo() {
       };
     }, []);
   
-    return <div className="w-16 h-16 bg-blue-500 rounded-lg" ref={boxRef} />;
+    return <div className="w-16 h-16 bg-orange-200 rounded-lg" ref={boxRef} />;
   }

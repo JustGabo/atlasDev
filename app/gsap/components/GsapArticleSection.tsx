@@ -190,7 +190,7 @@ gsap.to(".item", {
             <article className="flex">
               <div className="w-[50%] flex flex-col justify-between pr-14 pt-10 pb-6">
                 <div>
-                  <h2 className="text-base font-semibold mb-3">
+                  <h2 className="text-sm font-medium text-muted-foreground  tracking-widest mb-3">
                     GSAP Uses Lazy Rendering for Performance
                   </h2>
                   <p className="text-sm text-neutral-500 leading-relaxed mb-4">
@@ -214,13 +214,13 @@ gsap.to(".item", {
 
           <section id="quicksetter" className="">
             <article className="flex">
-              <div className="w-[50%] pr-14 pt-10">
-                <h2 className="text-base font-semibold mb-3">
+              <div className="w-[50%] pr-14 pt-10 pb-8">
+                <h2 className="text-sm font-medium text-muted-foreground  tracking-widest mb-3">
                   GSAP Quicksetter
                 </h2>
                 <p className="text-sm text-neutral-500 leading-relaxed mb-4">
                   {/* <code className="font-mono">quickSetter</code>{" "} */}
-                  <code className="font-mono tracking-wider text-xs bg-emerald-100 rounded-sm text-emerald-600 px-1.5 font-semibold py-0.5 ">
+                  <code className="font-mono tracking-wider text-xs bg-emerald-100 rounded-sm text-emerald-600 px-1.5 font-medium py-0.5 ">
                     quickSetter
                   </code>{" "}
                   is a lightweight function that instantly sets CSS values
@@ -232,7 +232,7 @@ gsap.to(".item", {
                 <p className="text-sm text-neutral-500 leading-relaxed mb-4">
                   Instead of generating a new tween every time a value changes,
                   {"  "}
-                  <code className="font-mono tracking-wider text-xs bg-emerald-100 rounded-sm text-emerald-600 px-1.5 font-semibold py-0.5 ">
+                  <code className="font-mono tracking-wider text-xs bg-emerald-100 rounded-sm text-emerald-600 px-1.5 font-medium py-0.5 ">
                     quickSetter
                   </code>{"  "}
                   returns a small optimized function that directly updates a
@@ -254,9 +254,9 @@ gsap.to(".item", {
 
           <section id="position-parameter" className="">
             <article className="flex">
-              <div className="w-[50%] flex flex-col justify-between pr-14 pt-12 pb-6">
+              <div className="w-[50%] flex flex-col justify-between pr-14 pt-12 pb-10">
                 <div>
-                  <h2 className="text-base font-semibold mb-3">
+                  <h2 className="text-sm font-medium text-muted-foreground  tracking-widest mb-3">
                     Position Parameter Controls Animation Timing
                   </h2>
                   <p className="text-sm text-neutral-500 leading-relaxed mb-4">
@@ -283,11 +283,11 @@ gsap.to(".item", {
             <article className="flex">
               <div className="w-[50%] flex flex-col justify-between pr-14 pt-14 pb-6">
                 <div>
-                  <h2 className="text-base font-semibold mb-3">
+                  <h2 className="text-sm font-medium text-muted-foreground  tracking-widest mb-3">
                     GSAP Autoalpha
                   </h2>
                   <p className="text-sm text-neutral-500 leading-relaxed mb-4">
-                    <code className="font-mono tracking-wider text-xs bg-fuchsia-100 rounded-sm text-fuchsia-600 px-1.5 font-semibold py-0.5 ">
+                    <code className="font-mono tracking-wider text-xs bg-fuchsia-100 rounded-sm text-fuchsia-600 px-1.5 font-medium py-0.5 ">
                       autoAlpha
                     </code>{" "}
                     {/* <code className="font-mono">autoAlpha</code>{" "} */}
@@ -308,11 +308,11 @@ gsap.to(".item", {
             <article className="flex">
               <div className="w-[50%] flex flex-col justify-between pr-14 pt-14 pb-6">
                 <div>
-                  <h2 className="text-base font-semibold mb-3">
+                  <h2 className="text-sm font-medium text-muted-foreground  tracking-widest mb-3">
                     GSAP Overwrite
                   </h2>
                   <p className="text-sm text-neutral-500 leading-relaxed mb-4">
-                    The <code className="font-mono">overwrite</code>{" "}
+                    The <code className="font-mono tracking-wider text-xs bg-blue-100 rounded-sm text-blue-500 px-1.5 font-medium py-0.5 ">overwrite</code>{" "}
                     property controls how GSAP handles conflicting animations on
                     the same element.
                     <code className="font-mono">"auto"</code>{" "}
@@ -332,13 +332,13 @@ gsap.to(".item", {
             <article className="flex">
               <div className="w-[50%] flex flex-col justify-between pr-14 pt-14 pb-6">
                 <div>
-                  <h2 className="text-base font-semibold mb-3">
+                  <h2 className="text-sm font-medium text-muted-foreground  tracking-widest mb-3">
                     <code className="font-mono">invalidate()</code>{" "}
                     Forces Recalculation
                   </h2>
                   <p className="text-sm text-neutral-500 leading-relaxed mb-4">
-                    By default, GSAP caches the starting values of an animation.
-                    <code className="font-mono">invalidate()</code>{" "}
+                    By default, GSAP caches the starting values of an animation. {" "}
+                    <code className="font-mono tracking-wider text-xs bg-yellow-100 rounded-sm text-yellow-500 px-1.5 font-medium py-0.5 ">invalidate()</code>{" "}
                     forces it to recalculate from the current position, useful
                     when the DOM has been manually modified between animations.
                   </p>
@@ -355,7 +355,7 @@ gsap.to(".item", {
             <article className="flex">
               <div className="w-[50%] flex flex-col justify-between pr-14 pt-14 pb-6">
                 <div>
-                  <h2 className="text-base font-semibold mb-3">
+                  <h2 className="text-sm font-medium text-muted-foreground  tracking-widest mb-3">
                     GSAP Can Animate Arrays
                   </h2>
                   <p className="text-sm text-neutral-500 leading-relaxed mb-4">
@@ -380,12 +380,12 @@ gsap.to(".item", {
             <article className="flex">
               <div className="w-[50%] flex flex-col justify-between pr-14 pt-12 pb-6">
                 <div>
-                  <h2 className="text-base font-semibold mb-3">
+                  <h2 className="text-sm font-medium text-muted-foreground  tracking-widest mb-3">
                     <code className="font-mono">revert()</code>{" "}
                     Kills and Restores
                   </h2>
                   <p className="text-sm text-neutral-500 leading-relaxed mb-4">
-                    <code className="font-mono">revert()</code>{" "}
+                    <code className="font-mono tracking-wider text-xs bg-pink-100 rounded-sm text-pink-500 px-1.5 font-medium py-0.5 ">revert()</code>{" "}
                     does more than just kill the animation — it completely
                     restores the DOM element to its original state, removing all
                     applied CSS. A total cleanup in one call.
@@ -402,7 +402,7 @@ gsap.to(".item", {
           <section id="match-media" className="">
             <article className="flex">
               <div className="w-[50%] pr-14 pt-14 pb-8">
-                <h2 className="text-base font-semibold mb-3">
+                <h2 className="text-sm font-medium text-muted-foreground  tracking-widest mb-3">
                   <code className="font-mono">matchMedia()</code>{" "}
                   for Responsive Animations
                 </h2>
@@ -436,7 +436,7 @@ gsap.to(".item", {
             <article className="flex">
               <div className="w-[50%] flex flex-col justify-between pr-14 pt-14 pb-14">
                 <div>
-                  <h2 className="text-base font-semibold mb-3">
+                  <h2 className="text-sm font-medium text-muted-foreground  tracking-widest mb-3">
                     Stagger With Position Distribution
                   </h2>
                   <p className="text-sm text-neutral-500 leading-relaxed mb-4">

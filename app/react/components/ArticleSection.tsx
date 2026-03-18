@@ -421,38 +421,6 @@ function MessageList({ messages, sendMessage }) {
                 codeString={fnProblem}
               />
             </article>
-            {
-              /* <article className="flex">
-              <div className="w-[50%] pr-14 pt-10">
-                <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest mb-2">
-                  Fix — stabilize with{" "}
-                  <code className="font-mono normal-case">useCallback</code>
-                </p>
-                <p className="text-sm text-neutral-500 leading-relaxed mb-3">
-                  In React, functions defined inside a component are recreated
-                  every time the component renders, which means they get a new
-                  reference each time. This can cause unnecessary re-renders
-                  when the function is passed as a prop to memoized components.
-                </p>
-
-                <p className="text-sm text-neutral-500 leading-relaxed mb-3">
-                  By wrapping the function with{" "}
-                  <code className="font-mono tracking-wider text-xs bg-cyan- bg-purple-100 rounded-sm text-purple-500 px-1.5 font-medium py-0.5">
-                    useCallback
-                  </code>{" "}
-                  , React returns the same function reference between renders,
-                  as long as the dependencies in its array haven’t changed. This
-                  helps prevent unnecessary re-renders and keeps components
-                  optimized when working with{" "}
-                  <span className="font-semibold text-neutral-600">
-                    React.memo
-                  </span>{" "}
-                  or dependency arrays.
-                </p>
-              </div>
-              <CodeSnippet language="jsx" codeString={fnSolution} />
-            </article> */
-            }
           </section>
 
           {/* <div className="border-t border-border mb-14" /> */}

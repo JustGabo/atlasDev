@@ -20,7 +20,7 @@ const customStyle = {
     marginTop: 0,
 };
 
-const CodeSnippet = ({ language, codeString, className }: CodeSnippetProps) => {
+const CodeSnippet = ({ language, codeString, className }: CodeSnippetProps) => {    
     return (
         <div className={`w-[50%] pl-6 bg-[#1E1E1E bg-[#131C29] pt-2 ${className}`}>
             <div className="h-px w-[90%] mc-auto bg-neutral-700 mb-4 rounded-xl"/>

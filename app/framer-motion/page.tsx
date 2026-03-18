@@ -22,7 +22,7 @@ function FramerMotionPage() {
         <div className="bg-[#F9FAFE] text-neutral-700 flex min-h-screen">
             <main className="w-[82vw] bg-white  ml-auto pl-12 pt-28">
                 <div className="min-h-screen">
-                    <TableOfContents title="Framer Motion's content" items={items} />
+                    <TableOfContents title="Framer Motion's content"  items={items} />
                 </div>
                 <FramerMotionArticleSection />
             </main>

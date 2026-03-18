@@ -27,17 +27,17 @@ export default function InvalidateDemo() {
   
     return (
       <div className="space-y-4 w-full flex flex-col items-center">
-        <div className="w-24 h-24 bg-blue-500 rounded-lg" ref={boxRef} />
+        <div className="w-24 h-24 bg-yellow-200 rounded-lg" ref={boxRef} />
         <div className="flex gap-2">
           <button
             onClick={handleAnimate}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm hover:bg-blue-600 transition"
+            className="px-4 py-2 bg-yellow-200 text-yellow-500 rounded-lg cursor-pointer text-sm hover:bg-yellow-300/80 transition"
           >
             Animate
           </button>
           <button
             onClick={handleInvalidate}
-            className="px-4 py-2 bg-purple-500 text-white rounded-lg text-sm hover:bg-purple-600 transition"
+            className="px-4 py-2  text-neutral-400 rounded-lg text-sm cursor-pointer transition"
           >
             Reset & Invalidate
           </button>

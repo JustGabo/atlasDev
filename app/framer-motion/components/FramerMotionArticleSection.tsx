@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import CodeSnippet from "@/components/CodeSnippet";
 import LayoutIdDemo from "./demos/LayoutId";
 import TransformDemo from "./demos/Transform";
@@ -59,10 +59,10 @@ const [useTransform, setUseTransform] = useState(true);
   animate={
     useTransform
       ? { x: 100, scale: 1.2 } // transform (GPU friendly)
-      : { left: 100, width: 200 } // layout (reflow)
+      : { left: 100, width: 175 } // layout (reflow)
   }
   transition={{ duration: 0.5 }}
-  className="w-24 h-24"
+  className="w-14 h-16"
 />
 
 <button onClick={() => setUseTransform(!useTransform)}>
@@ -175,8 +175,7 @@ useMotionValueEvent(x, "change", latest => {
 <motion.div drag="x" style={{ x }} className="w-20 h-20" />
 `;
 
-    const useTimeCode =
-        `export default function UseTimeExample() {
+    const useTimeCode = `export default function UseTimeExample() {
   // useTime returns a MotionValue<number> that continuously increases
   // representing the elapsed time (in milliseconds) since mount
   const time = useTime();
@@ -233,7 +232,7 @@ const [isOpen, cycle] = useCycle(false, true);
                         <article className="flex">
                             <div className="w-[50%] flex flex-col justify-between pr-14 pt-10 pb-6">
                                 <div>
-                                    <h2 className="text-base font-semibold mb-3">
+                                    <h2 className="text-sm font-medium text-muted-foreground  tracking-widest mb-3">
                                         <code className="font-mono">
                                             layoutId
                                         </code>{" "}
@@ -241,7 +240,7 @@ const [isOpen, cycle] = useCycle(false, true);
                                     </h2>
                                     <p className="text-sm text-neutral-500 leading-relaxed mb-4">
                                         In Framer Motion, the{" "}
-                                        <code className="font-mono tracking-wide text-xs bg-cyan- bg-indigo-100 rounded-sm text-indigo-500 px-1.5 font-medium py-0.5 ">
+                                        <code className="font-mono tracking-wide text-xs bg-indigo-100 rounded-sm text-indigo-500 px-1.5 font-medium py-0.5 ">
                                             layoutId
                                         </code>{"  "}
                                         prop allows you to create shared element
@@ -249,7 +248,7 @@ const [isOpen, cycle] = useCycle(false, true);
                                         represent the same logical element
                                         across different parts of the UI. When
                                         two motion elements share the same{" "}
-                                        <code className="font-mono tracking-wide text-xs bg-cyan- bg-indigo-100 rounded-sm text-indigo-500 px-1.5 font-medium py-0.5 ">
+                                        <code className="font-mono tracking-wide text-xs bg-indigo-100 rounded-sm text-indigo-500 px-1.5 font-medium py-0.5 ">
                                             layoutId
                                         </code>{" "}
                                         , Framer Motion understands that they
@@ -273,7 +272,7 @@ const [isOpen, cycle] = useCycle(false, true);
                                     <p className="text-sm text-neutral-500 leading-relaxed mb-4">
                                         Because each version of the card shares
                                         the same{"  "}
-                                        <code className="font-mono text-xs bg-neutral-200 text-neutral-500 px-1.5 rounded-sm font-semibold tracking-wider py-0.5">
+                                        <code className="font-mono text-xs bg-neutral-200 text-neutral-500 px-1.5 rounded-sm font-medium tracking-wider py-0.5">
                                             layoutId="card"
                                         </code>{" "}
                                         , Framer Motion understands they
@@ -303,7 +302,7 @@ const [isOpen, cycle] = useCycle(false, true);
                         <article className="flex">
                             <div className="w-[50%] flex flex-col justify-between pr-14 pt-16 pb-6">
                                 <div>
-                                    <h2 className="text-base font-semibold mb-3">
+                                    <h2 className="text-sm font-medium text-muted-foreground  tracking-widest mb-3">
                                         Animating Transform Is More Performant
                                     </h2>
                                     <p className="text-sm text-neutral-500 leading-relaxed mb-4">
@@ -354,7 +353,7 @@ const [isOpen, cycle] = useCycle(false, true);
                         <article className="flex">
                             <div className="w-[50%] flex flex-col justify-between pr-14 pt-16 pb-10">
                                 <div>
-                                    <h2 className="text-base font-semibold mb-3">
+                                    <h2 className="text-sm font-medium text-muted-foreground  tracking-widest mb-3">
                                         <code className="font-mono">
                                             AnimatePresence
                                         </code>{" "}
@@ -386,7 +385,7 @@ const [isOpen, cycle] = useCycle(false, true);
                         <article className="flex">
                             <div className="w-[50%] flex flex-col justify-between pr-14 pt-16 pb-10">
                                 <div>
-                                    <h2 className="text-base font-semibold mb-3">
+                                    <h2 className="text-sm font-medium text-muted-foreground  tracking-widest mb-3">
                                         Motion Values Avoid Re-renders
                                     </h2>
                                     <p className="text-sm text-neutral-500 leading-relaxed mb-4">
@@ -425,7 +424,7 @@ const [isOpen, cycle] = useCycle(false, true);
                         <article className="flex">
                             <div className="w-[50%] flex flex-col justify-between pr-14 pt-16 pb-6">
                                 <div>
-                                    <h2 className="text-base font-semibold mb-3">
+                                    <h2 className="text-sm font-medium text-muted-foreground  tracking-widest mb-3">
                                         <code className="font-mono">
                                             whileHover
                                         </code>{" "}
@@ -482,7 +481,7 @@ const [isOpen, cycle] = useCycle(false, true);
                         <article className="flex">
                             <div className="w-[50%] flex flex-col justify-between pr-14 pt-16 pb-10">
                                 <div>
-                                    <h2 className="text-base font-semibold mb-3">
+                                    <h2 className="text-sm font-medium text-muted-foreground  tracking-widest mb-3">
                                         <code className="font-mono">
                                             animate
                                         </code>{" "}
@@ -516,7 +515,7 @@ const [isOpen, cycle] = useCycle(false, true);
                         <article className="flex">
                             <div className="w-[50%] flex flex-col justify-between pr-14 pt-16 pb-10">
                                 <div>
-                                    <h2 className="text-base font-semibold mb-3">
+                                    <h2 className="text-sm font-medium text-muted-foreground  tracking-widest mb-3">
                                         <code className="font-mono">
                                             layout="position"
                                         </code>{" "}
@@ -551,14 +550,14 @@ const [isOpen, cycle] = useCycle(false, true);
                         <article className="flex">
                             <div className="w-[50%] flex flex-col justify-between pr-14 pt-16 pb-10">
                                 <div>
-                                    <h2 className="text-base font-semibold mb-3">
+                                    <h2 className="text-sm font-medium text-muted-foreground  tracking-widest mb-3">
                                         <code className="font-mono">
                                             useMotionValueEvent
                                         </code>{" "}
                                         Listens Without Re-render
                                     </h2>
                                     <p className="text-sm text-neutral-500 leading-relaxed mb-4">
-                                        <code className="font-mono tracking-wider text-xs bg-cyan- bg-pink-100 rounded-sm text-pink-500 px-1.5 font-medium py-0.5">
+                                        <code className="font-mono tracking-wider text-xs bg-pink-100 rounded-sm text-pink-500 px-1.5 font-medium py-0.5">
                                             useMotionValueEvent
                                         </code>{" "}
                                         hook allows you to listen to motion
@@ -586,48 +585,30 @@ const [isOpen, cycle] = useCycle(false, true);
                         <article className="flex">
                             <div className="w-[50%] flex flex-col justify-between pr-14 pt-14 pb-10">
                                 <div>
-                                    <h2 className="text-base font-semibold mb-3">
+                                    <h2 className="text-sm font-medium text-muted-foreground  tracking-widest mb-3">
                                         <code className="font-mono">
                                             useTime
                                         </code>{" "}
                                         Creates Time-Based Motion Values
                                     </h2>
-                                    {
-                                        /* <p className="text-sm text-neutral-500 leading-relaxed mb-4">
-                                        <code className="font-mono tracking-wider text-xs bg-blue-100 rounded-sm text-blue-600 px-1.5 font-semibold py-0.5 ">
-                                            useTime
-                                        </code>{" "}
-                                        returns a motion value that continuously
-                                        updates with the elapsed time since
-                                        mount, useful for time-based animations
-                                        like rotating elements.
-                                    </p>
-
                                     <p className="text-sm text-neutral-500 leading-relaxed mb-4">
-                                        It basically represents the current time
-                                        in milliseconds since the component
-                                        mounted.
-                                    </p> */
-                                    }
-
-                                    <p className="text-sm text-neutral-500 leading-relaxed mb-4">
-                                        <code className="font-mono tracking-wider text-xs bg-blue-100 rounded-sm text-blue-600 px-1.5 font-semibold py-0.5 ">
+                                        <code className="font-mono tracking-wider text-xs bg-blue-100 rounded-sm text-blue-600 px-1.5 font-medium py-0.5 ">
                                             useTime
                                         </code>{"  "}
                                         is a hook from Framer Motion that
                                         exposes a continuously updating motion
                                         value representing the elapsed time
                                         since the component mounted. Instead of
-                                        manually managing timers with
-                                        <code className="font-mono text-xs bg-neutral-200 text-neutral-500 px-1.5 rounded-sm font-semibold tracking-wider py-0.5 ">
+                                        manually managing timers with{"  "}
+                                        <code className="font-mono text-xs bg-neutral-200 text-neutral-500 px-1.5 rounded-sm font-medium tracking-wider py-0.5 ">
                                             setInterval
-                                        </code>{"  "}
+                                        </code>
                                         ,{" "}
-                                        <code className="font-mono text-xs bg-neutral-200 text-neutral-500 px-1.5 rounded-sm font-semibold tracking-wider py-0.5 ">
+                                        <code className="font-mono text-xs bg-neutral-200 text-neutral-500 px-1.5 rounded-sm font-medium tracking-wider py-0.5 ">
                                             requestAnimationFrame
-                                        </code>{"  "}
+                                        </code>
                                         , or state updates,{" "}
-                                        <code className="font-mono tracking-wider text-xs bg-blue-100 rounded-sm text-blue-600 px-1.5 font-semibold py-0.5 ">
+                                        <code className="font-mono tracking-wider text-xs bg-blue-100 rounded-sm text-blue-600 px-1.5 font-medium py-0.5 ">
                                             useTime
                                         </code>{"  "}
                                         provides a reactive time source that can
@@ -640,7 +621,7 @@ const [isOpen, cycle] = useCycle(false, true);
                                     </p>
 
                                     <p className="text-sm text-neutral-500 leading-relaxed mb-4">
-                                        <code className="font-mono tracking-wider text-xs bg-blue-100 rounded-sm text-blue-600 px-1.5 font-semibold py-0.5 ">
+                                        <code className="font-mono tracking-wider text-xs bg-blue-100 rounded-sm text-blue-600 px-1.5 font-medium py-0.5 ">
                                             useTime
                                         </code>{"  "}
                                         is useful when you want deterministic,
@@ -674,7 +655,7 @@ const [isOpen, cycle] = useCycle(false, true);
                         <article className="flex">
                             <div className="w-[50%] flex flex-col justify-between pr-14 pt-16 pb-10">
                                 <div>
-                                    <h2 className="text-base font-semibold mb-3">
+                                    <h2 className="text-sm font-medium text-muted-foreground  tracking-widest mb-3">
                                         <code className="font-mono">
                                             useCycle
                                         </code>{" "}
@@ -715,7 +696,6 @@ const [isOpen, cycle] = useCycle(false, true);
     );
 }
 
-
 // const useTimeCode = `const time = useTime();
 
 // // useTransform maps one motion value to another.
@@ -723,10 +703,10 @@ const [isOpen, cycle] = useCycle(false, true);
 // // [0, 4000]  → input range (0ms to 4000ms)
 // // [0, 360]   → output range (0° to 360°)
 
-// const rotate = useTransform(time, [0, 4000], [0, 360], { 
+// const rotate = useTransform(time, [0, 4000], [0, 360], {
 //   // clamp: false allows the value to keep increasing beyond the range.
 //   // Without this, rotation would stop at 360°.
-//   clamp: false 
+//   clamp: false
 // });
 
 // // Since "rotate" is constantly changing over time,

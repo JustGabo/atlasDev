@@ -40,7 +40,7 @@ export default function TableOfContents(
     setShowTitle(true);
     const id = setTimeout(() => {
       setShow(true);
-    }, homeStagger ? 75 : 300);
+    }, homeStagger ? 30 : 620);
 
     return () => {
       clearTimeout(id);
@@ -64,6 +64,7 @@ export default function TableOfContents(
             transition={{
               duration: 0.4,
               ease: "easeOut",
+              delay: 0.3
             }}
             className={`text-sm font-semibold w-full  ${
               hideIndex ? "hidden" : "block"
